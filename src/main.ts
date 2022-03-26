@@ -4,6 +4,7 @@ import {
   ExpressAdapter,
   NestExpressApplication,
 } from '@nestjs/platform-express'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as express from 'express'
 import { AppModule } from './app.module'
 import { AppConfigsService } from './config/app-configs'
@@ -22,13 +23,26 @@ async function bootstrap() {
     },
   )
 
+  const appConfigService: AppConfigsService = app.get(AppConfigsService)
+  const { serverPort: port, appVersion } = appConfigService
+
+  const options = new DocumentBuilder()
+    .setTitle('Trello Clone API')
+    .addBearerAuth()
+    .setDescription(
+      `
+      The Trello Clone APIs documentation
+    `,
+    )
+    .setVersion(appVersion)
+    .build()
+  const document = SwaggerModule.createDocument(app, options)
+  SwaggerModule.setup(appConfigService.apiDocsPath, app, document)
+
   app.use(MORGAN_MIDDLEWARE_CONFIG)
 
-  const appConfigService: AppConfigsService = app.get(AppConfigsService)
-
-  const port = appConfigService.serverPort
   const logger = new Logger(AppModule.name)
-  logger.warn(`[INFO] Main Server is listening on port ${port}`)
+  logger.warn(`[INFO] Main Server v${appVersion} is listening on port ${port}`)
   await app.listen(port)
 }
 bootstrap()

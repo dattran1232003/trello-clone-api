@@ -15,4 +15,8 @@ export class AppEnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   MONGO_URI = process.env.MONGO_URI
+
+  @IsString()
+  @IsNotEmpty()
+  API_DOCS_PATH = process.env.API_DOCS_PATH
 }

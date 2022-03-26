@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { ENV_FILE_PATH, NODE_ENV } from 'src/common/constants'
 import { EnvConfig } from 'src/common/decorators'
 import { AppEnvironmentVariables } from './app-configs.validator'
+const version = require('../../../package.json').version
 
 @Injectable()
 export class AppConfigsService {
@@ -12,11 +13,19 @@ export class AppConfigsService {
     return this.envConfig.NODE_ENV
   }
 
+  get appVersion(): string {
+    return version
+  }
+
   get serverPort(): number {
     return this.envConfig.PORT
   }
 
   get mongoURI(): string {
     return this.envConfig.MONGO_URI
+  }
+
+  get apiDocsPath(): string {
+    return this.envConfig.API_DOCS_PATH
   }
 }
