@@ -35,5 +35,8 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 
-# lock file
+# Environments
+environments/**/*
+
+# Lock file
 package-lock.json # only allow yarn.lock in this project
