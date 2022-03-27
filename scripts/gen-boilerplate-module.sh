@@ -13,6 +13,7 @@ FOLDERS=(
   'services'
   'controllers'
   'subscribers'
+  'dtos'
 )
 
 

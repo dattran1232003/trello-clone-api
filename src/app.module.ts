@@ -12,6 +12,7 @@ import { HttpExceptionFilter } from './common/filters'
 import { GlobalModule } from './common/globals/global.module'
 import { SessionModule } from './common/session/session.module'
 import { AppConfigModule, AppConfigService } from './config/app-configs'
+import { BoardModule } from './api/board/board.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AppConfigModule, AppConfigService } from './config/app-configs'
     SessionModule,
     AuthModule,
     CommonModule,
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [
