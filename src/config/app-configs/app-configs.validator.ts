@@ -19,4 +19,12 @@ export class AppEnvironmentVariables {
   @IsString()
   @IsNotEmpty()
   API_DOCS_PATH = process.env.API_DOCS_PATH
+
+  @IsString()
+  @IsNotEmpty()
+  PRIVATE_KEY = process.env.PRIVATE_KEY
+
+  @IsString()
+  @IsNotEmpty()
+  PUBLIC_KEY = process.env.PUBLIC_KEY
 }

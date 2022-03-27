@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
+import { CommonModule } from 'src/common/common.module'
 import { COLLECTION_NAME, MONGO_CONNECTION } from 'src/common/constants'
 import { UserSchema } from '../../schemas'
 import { UserCollection } from './user.collection'
 
 @Module({
   imports: [
+    CommonModule,
     MongooseModule.forFeature(
       [
         {

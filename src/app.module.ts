@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common'
+import { APP_FILTER } from '@nestjs/core'
 import { MongooseModule, MongooseModuleAsyncOptions } from '@nestjs/mongoose'
 import { AuthModule } from './api/auth/auth.module'
 import { RefreshTokenModule } from './api/refresh-token/refresh-token.module'
@@ -7,21 +8,22 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { CommonModule } from './common/common.module'
 import { MONGO_CONNECTION } from './common/constants'
+import { HttpExceptionFilter } from './common/filters'
 import { GlobalModule } from './common/globals/global.module'
 import { SessionModule } from './common/session/session.module'
-import { AppConfigsModule, AppConfigsService } from './config/app-configs'
+import { AppConfigModule, AppConfigService } from './config/app-configs'
 
 @Module({
   imports: [
     GlobalModule,
-    AppConfigsModule,
+    AppConfigModule,
     MongooseModule.forRootAsync({
-      imports: [AppConfigsModule],
-      useFactory: async (appConfigService: AppConfigsService) => ({
+      imports: [AppConfigModule],
+      useFactory: async (appConfigService: AppConfigService) => ({
         uri: appConfigService.mongoURI,
         useUnifiedTopology: true,
       }),
-      inject: [AppConfigsService],
+      inject: [AppConfigService],
       connectionName: MONGO_CONNECTION.MAIN,
     } as MongooseModuleAsyncOptions),
     UserModule,
@@ -31,6 +33,12 @@ import { AppConfigsModule, AppConfigsService } from './config/app-configs'
     CommonModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb'
 import { COLLECTION_NAME } from 'src/common/constants'
 import { MongoSchema } from 'src/common/decorators'
 import { BaseSchemaNestJS } from 'src/common/schemas'
-import { AppConfigsService } from 'src/config/app-configs'
+import { AppConfigService } from 'src/config/app-configs'
 
 @MongoSchema({
   modelName: COLLECTION_NAME.REFRESH_TOKEN_MODEL,
@@ -24,7 +24,7 @@ export class RefreshToken extends BaseSchemaNestJS {
 
   @Prop({
     type: Date,
-    default: () => Date.now() + AppConfigsService.shared.refreshTokenExpired,
+    default: () => Date.now() + AppConfigService.shared.refreshTokenExpired,
   })
   expiredAt: Date
 }

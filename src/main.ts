@@ -7,7 +7,9 @@ import {
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as express from 'express'
 import { AppModule } from './app.module'
-import { AppConfigsService } from './config/app-configs'
+import { AllExceptionFilter, HttpExceptionFilter } from './common/filters'
+import { ValidationPipe } from './common/pipes'
+import { AppConfigService } from './config/app-configs'
 import {
   MAIN_LOGGER_CONFIGS,
   MORGAN_MIDDLEWARE_CONFIG,
@@ -23,7 +25,14 @@ async function bootstrap() {
     },
   )
 
-  const appConfigService: AppConfigsService = app.get(AppConfigsService)
+  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalFilters(
+    //
+    new AllExceptionFilter(),
+    new HttpExceptionFilter(),
+  )
+
+  const appConfigService: AppConfigService = app.get(AppConfigService)
   const { serverPort: port, appVersion } = appConfigService
 
   const options = new DocumentBuilder()

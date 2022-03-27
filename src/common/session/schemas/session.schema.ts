@@ -1,9 +1,10 @@
 import { Prop, SchemaFactory } from '@nestjs/mongoose'
 import { ObjectId } from 'mongodb'
+import { User } from 'src/api/user/schemas'
 import { COLLECTION_NAME } from 'src/common/constants'
 import { MongoSchema } from 'src/common/decorators'
 import { BaseSchemaNestJS } from 'src/common/schemas'
-import { AppConfigsService } from 'src/config/app-configs'
+import { AppConfigService } from 'src/config/app-configs'
 
 @MongoSchema({
   modelName: COLLECTION_NAME.SESSION_MODEL,
@@ -14,6 +15,8 @@ export class Session extends BaseSchemaNestJS {
     ref: COLLECTION_NAME.USER_MODEL,
   })
   userId: ObjectId
+
+  user?: User
 
   @Prop({
     type: String,
@@ -27,8 +30,14 @@ export class Session extends BaseSchemaNestJS {
   restricted: boolean
 
   @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isUserDeleted: boolean
+
+  @Prop({
     type: Date,
-    default: () => Date.now() + AppConfigsService.shared.sessionExpired,
+    default: () => Date.now() + AppConfigService.shared.sessionExpired,
   })
   expiredAt: Date
 }
