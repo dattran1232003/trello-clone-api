@@ -1,4 +1,5 @@
 import { ArgumentsHost, Catch, HttpException, Logger } from '@nestjs/common'
+import { ERROR_CODE } from '../constants'
 import { IError } from '../interfaces'
 import { CustomException, SendData } from './custom-exception'
 
@@ -13,9 +14,14 @@ export class HttpExceptionFilter extends CustomException<HttpException> {
     const message = response?.message || ''
     const statusCode = response.statusCode || 500
     const data = response.data
+    const statusCodeStr = ERROR_CODE[statusCode]
 
     this.logger.warn(
-      `[HTTP-EXCEPTION]: \n errorCode: ${errorCode} \n statusCode: ${statusCode} \n message: ${message}`,
+      `[HTTP-EXCEPTION]:
+        errorCode: ${errorCode}
+        statusCode: ${statusCode}
+        statusCodeStr: ${statusCodeStr}
+        message: ${message}`,
     )
     this.send(exception, host, {
       statusCode,

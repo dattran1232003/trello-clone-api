@@ -95,4 +95,25 @@ export class ErrorService {
       HttpStatus.FORBIDDEN,
     )
   }
+
+  async throwErrorBoardNotFound(): Promise<never> {
+    const message = `Board not found`
+    throw new HttpException(
+      {
+        message,
+        statusCode: ERROR_CODE.BOARD_NOT_FOUND,
+      },
+      HttpStatus.BAD_REQUEST,
+    )
+  }
+  async throwErrorUserCannotAccessBoard(): Promise<never> {
+    const message = `You cannot access this board because you have no permission or board is deleted`
+    throw new HttpException(
+      {
+        message,
+        statusCode: ERROR_CODE.FORBIDDEN_RESOURCE,
+      },
+      HttpStatus.FORBIDDEN,
+    )
+  }
 }

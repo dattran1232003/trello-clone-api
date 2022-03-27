@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import * as argon2 from 'argon2'
 import { UserCollection } from 'src/api/user/collections/user'
+import { UserDto } from 'src/api/user/dtos'
 import { User } from 'src/api/user/schemas'
 import { UserService } from 'src/api/user/services/user.service'
 import { ErrorService } from 'src/common/services'
@@ -39,7 +40,7 @@ export class UserAuthenticationService {
     const newUser = await this.userCollection.create(userInfo)
 
     const signInResponse = await this.authenticationService.signIn(newUser)
-    signInResponse.user = newUser
+    signInResponse.user = new UserDto(newUser)
 
     return signInResponse
   }
