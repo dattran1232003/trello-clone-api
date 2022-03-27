@@ -13,6 +13,7 @@ import { GlobalModule } from './common/globals/global.module'
 import { SessionModule } from './common/session/session.module'
 import { AppConfigModule, AppConfigService } from './config/app-configs'
 import { BoardModule } from './api/board/board.module';
+import { ListModule } from './api/list/list.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { BoardModule } from './api/board/board.module';
     AuthModule,
     CommonModule,
     BoardModule,
+    ListModule,
   ],
   controllers: [AppController],
   providers: [
