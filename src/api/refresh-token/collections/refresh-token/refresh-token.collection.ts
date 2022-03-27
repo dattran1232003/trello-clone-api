@@ -8,13 +8,6 @@ import { RefreshToken } from '../../schemas'
 
 @Injectable()
 export class RefreshTokenCollection {
-  async deleteRefreshTokenByRefreshTokenString(
-    refreshTokenString: string,
-  ): Promise<void> {
-    await this.refreshTokenModel.deleteOne({
-      refreshToken: refreshTokenString,
-    })
-  }
   constructor(
     @InjectModel(COLLECTION_NAME.REFRESH_TOKEN_MODEL)
     private readonly refreshTokenModel: Model<RefreshToken>,
@@ -28,6 +21,28 @@ export class RefreshTokenCollection {
       userId,
       refreshToken: refreshTokenString,
       expiredAt: expiredDate,
+    })
+  }
+
+  async getRefreshTokenByRefreshTokenString(
+    refreshTokenString: string,
+  ): Promise<RefreshToken> {
+    return this.refreshTokenModel.findOne({
+      refreshToken: refreshTokenString,
+    })
+  }
+
+  async deleteRefreshTokenByRefreshTokenString(
+    refreshTokenString: string,
+  ): Promise<void> {
+    await this.refreshTokenModel.deleteOne({
+      refreshToken: refreshTokenString,
+    })
+  }
+
+  async deleteRefreshTokenById(refreshTokenId: ObjectId): Promise<void> {
+    await this.refreshTokenModel.deleteOne({
+      _id: refreshTokenId,
     })
   }
 }

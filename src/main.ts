@@ -8,7 +8,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as express from 'express'
 import { AppModule } from './app.module'
 import { AllExceptionFilter, HttpExceptionFilter } from './common/filters'
-import { ValidationPipe } from './common/pipes'
 import { AppConfigService } from './config/app-configs'
 import {
   MAIN_LOGGER_CONFIGS,
@@ -25,7 +24,7 @@ async function bootstrap() {
     },
   )
 
-  app.useGlobalPipes(new ValidationPipe())
+  // app.useGlobalPipes(new ValidationPipe())
   app.useGlobalFilters(
     //
     new AllExceptionFilter(),

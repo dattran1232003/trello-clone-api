@@ -23,6 +23,12 @@ export class RefreshToken extends BaseSchemaNestJS {
   refreshToken: string
 
   @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isUserDeleted: boolean
+
+  @Prop({
     type: Date,
     default: () => Date.now() + AppConfigService.shared.refreshTokenExpired,
   })

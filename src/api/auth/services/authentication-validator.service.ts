@@ -16,7 +16,6 @@ export class AuthenticationValidatorService {
     const session = await this.authenticationUtilsService.validateSession(
       validatePayload?.sessionId,
     )
-
     if (!session || !session.user || session.restricted) {
       await this.throwErrorInvalidToken()
       return

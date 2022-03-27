@@ -9,6 +9,10 @@ import { CommonValidationPipe } from './common-validation.pipe'
 
 @Injectable()
 export class ValidationPipe extends CommonValidationPipe {
+  constructor() {
+    super()
+  }
+
   async transform(value: any, metadata: ArgumentMetadata) {
     const { metatype } = metadata
     if (!metatype || !this.toValidate(metatype)) {

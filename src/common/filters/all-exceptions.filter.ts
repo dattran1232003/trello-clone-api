@@ -8,6 +8,7 @@ export class AllExceptionFilter extends CustomException<MongoError> {
 
   catch(exception: any, host: ArgumentsHost) {
     this.logger.warn(`[AllExceptionFilter]: ${exception}`)
+    console.error(exception)
     const statusCode =
       exception && exception.getStatus ? exception.getStatus() : 500
 

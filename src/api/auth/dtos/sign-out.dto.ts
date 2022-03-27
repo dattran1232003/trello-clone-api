@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsOptional, IsString } from 'class-validator'
 import { ObjectId } from 'mongodb'
 import { Session } from 'src/common/session/schemas'
 
@@ -29,11 +28,4 @@ export class SignOutResponseDto {
     this.id = session._id?.toString() || session.id || null
     this.restricted = session.restricted
   }
-}
-
-export class RefreshTokenDto {
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  readonly refreshToken?: string
 }

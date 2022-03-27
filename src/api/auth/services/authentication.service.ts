@@ -4,11 +4,15 @@ import { ObjectId } from 'mongodb'
 import { RefreshTokenCollection } from 'src/api/refresh-token/collections/refresh-token'
 import { UserDto } from 'src/api/user/dtos'
 import { User } from 'src/api/user/schemas'
+import { ITrackingHeaders } from 'src/common/interfaces'
+import { ErrorService } from 'src/common/services'
 import { SessionCollection } from 'src/common/session/collections/session'
 import { SessionService } from 'src/common/session/services'
 import { AppConfigService } from 'src/config/app-configs'
 import {
   RefreshTokenDto,
+  RefreshTokenRequestDto,
+  RefreshTokenResponseDto,
   SignOutResponseDto,
   UserAuthenticationResponseDto,
 } from '../dtos'
@@ -18,6 +22,7 @@ import { IAccessTokenAndRefreshToken, IJWTPayload } from '../interfaces'
 export class AuthenticationService {
   constructor(
     private readonly jwtService: JwtService,
+    private readonly errorService: ErrorService,
     private readonly sessionService: SessionService,
 
     private readonly sessionCollection: SessionCollection,
@@ -41,7 +46,7 @@ export class AuthenticationService {
   }
   async createTokenAndRefreshToken(
     userId: ObjectId,
-    tokenDuration: number,
+    tokenDuration?: number,
   ): Promise<IAccessTokenAndRefreshToken> {
     const session = await this.sessionService.createSessionForUser(
       userId,
@@ -82,6 +87,7 @@ export class AuthenticationService {
     user: User,
     body: RefreshTokenDto,
   ): Promise<SignOutResponseDto> {
+    console.log('signin out')
     const { refreshToken: refreshTokenString } = body
     if (refreshTokenString) {
       await this.refreshTokenCollection.deleteRefreshTokenByRefreshTokenString(
@@ -94,5 +100,39 @@ export class AuthenticationService {
     )
 
     return new SignOutResponseDto(session)
+  }
+
+  async refreshToken(
+    refreshTokenRequestDto: RefreshTokenRequestDto,
+    trackingHeaders: ITrackingHeaders,
+  ): Promise<RefreshTokenResponseDto> {
+    const { refreshToken: refreshTokenString } = refreshTokenRequestDto
+    const refreshToken =
+      await this.refreshTokenCollection.getRefreshTokenByRefreshTokenString(
+        refreshTokenString,
+      )
+
+    if (!refreshToken) {
+      await this.errorService.throwErrorInvalidToken()
+    }
+
+    if (refreshToken.isUserDeleted) {
+      await this.errorService.throwErrorUserAlreadyDeleted()
+      return
+    }
+
+    // Decode refresh token
+    const { sessionId } = this.jwtService.decode(
+      refreshTokenString,
+    ) as IJWTPayload
+
+    const newAccessTokenAndRefreshToken = await this.createTokenAndRefreshToken(
+      refreshToken.userId,
+    )
+
+    // Clean
+    await this.refreshTokenCollection.deleteRefreshTokenById(refreshToken._id)
+
+    return new RefreshTokenResponseDto(newAccessTokenAndRefreshToken)
   }
 }

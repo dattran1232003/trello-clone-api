@@ -1,6 +1,6 @@
 import { Prop, SchemaFactory } from '@nestjs/mongoose'
 import { ObjectId } from 'mongodb'
-import { User } from 'src/api/user/schemas'
+import { IUser } from 'src/api/user/interfaces'
 import { COLLECTION_NAME } from 'src/common/constants'
 import { MongoSchema } from 'src/common/decorators'
 import { BaseSchemaNestJS } from 'src/common/schemas'
@@ -16,7 +16,7 @@ export class Session extends BaseSchemaNestJS {
   })
   userId: ObjectId
 
-  user?: User
+  user?: IUser
 
   @Prop({
     type: String,
