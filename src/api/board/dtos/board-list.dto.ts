@@ -1,17 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsMongoId, IsNotEmpty, IsString } from 'class-validator'
 
-export class CreateListRequestDto {
+export class BoardListParamRequestDto {
   @IsMongoId()
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
   boardId: string
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  title: string
-
-  constructor() {}
 }

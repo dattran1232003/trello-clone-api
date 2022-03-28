@@ -1,4 +1,6 @@
+export * from './board-list.dto'
 export * from './board-response.dto'
 export * from './create-board-request.dto'
 export * from './get-boards-page-load.dto'
+export * from './move-list-in-board.dto'
 export * from './update-board-request.dto'

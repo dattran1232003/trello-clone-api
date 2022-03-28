@@ -609,11 +609,6 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@kayron013/lexorank@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@kayron013/lexorank/-/lexorank-2.0.0.tgz#3dc6d0c2774de117b280667e042788d3cefafb82"
-  integrity sha512-acQaZPjnsHnXm28i6YATdi/nZ3gs2c5ZFlkFhXcSw0CgDymF+U5v4SYcQT0/ryjBcEjKl1HQWpBLK+PtVOIAHA==
-
 "@mapbox/node-pre-gyp@^1.0.8":
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.8.tgz#32abc8a5c624bc4e46c43d84dfb8b26d33a96f58"
@@ -3859,6 +3854,11 @@ levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+lexorank@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/lexorank/-/lexorank-1.0.4.tgz#49ad4b93937f444763cc2660c147506326aa41b1"
+  integrity sha512-CMgA8AMJIX/QfoYHKyjg0hv9W1SGL2xRkt0uLyhT9xKKRj73fHi+IhsrB3W36wwk4I0iz8YlKHfdW14QDwerMA==
 
 libphonenumber-js@^1.9.43:
   version "1.9.50"

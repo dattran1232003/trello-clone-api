@@ -19,7 +19,10 @@ export class BoardCollection {
     return this.boardModel.create(board)
   }
 
-  async getBoardById(boardId: string | ObjectId): Promise<Board> {
+  async getBoardById(
+    boardId: string | ObjectId,
+    nullable = false,
+  ): Promise<Board> {
     if (!ObjectId.isValid(boardId)) {
       await this.errorService.throwErrorBoardNotFound()
     }
@@ -29,7 +32,7 @@ export class BoardCollection {
       deleted: false,
     })
 
-    if (!board) {
+    if (!nullable && !board) {
       await this.errorService.throwErrorBoardNotFound()
     }
 

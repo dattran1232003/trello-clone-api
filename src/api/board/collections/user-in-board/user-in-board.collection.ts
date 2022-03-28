@@ -20,6 +20,23 @@ export class UserInBoardCollection {
     return this.userInBoardModel.create(userInBoard)
   }
 
+  async checkUserInBoard(
+    userId: ObjectId,
+    boardId: ObjectId,
+  ): Promise<UserInBoard | never> {
+    const userInBoard = await this.userInBoardModel.findOne({
+      userId,
+      boardId,
+      deleted: false,
+    })
+
+    if (!userInBoard) {
+      await this.errorService.throwErrorUserCannotAccessBoard()
+    }
+
+    return userInBoard
+  }
+
   async getUserBoardsPageLoadQuery<T extends ICountMongo | UserInBoard>(
     userId: ObjectId,
     skip = 0,

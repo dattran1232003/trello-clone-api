@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-import { ObjectId } from 'mongodb'
+import { BoardListParamRequestDto } from './board-list.dto'
 
-export class UpdateListParamRequestDto {
+export class MoveListInBoardParamRequestDto extends BoardListParamRequestDto {
   @IsMongoId()
   @IsString()
   @IsNotEmpty()
@@ -10,17 +10,10 @@ export class UpdateListParamRequestDto {
   listId: string
 }
 
-export class UpdateListRequestDto {
+export class MoveListInBoardRequestDto {
   @IsOptional()
   @IsMongoId()
   @IsString()
   @ApiProperty()
-  boardId?: ObjectId
-
-  @IsOptional()
-  @IsString()
-  @ApiProperty()
-  title?: string
-
-  constructor() {}
+  replacedListId?: string
 }

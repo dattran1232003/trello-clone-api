@@ -1,15 +1,23 @@
 import { Module } from '@nestjs/common'
 import { CommonModule } from 'src/common/common.module'
-import { BoardCollectionModule } from './collections/board/board-collection.module'
-import { UserInBoardCollectionModule } from './collections/user-in-board/user-in-board-collection.module'
-import { BoardController } from './controllers/board.controller'
-import { BoardService } from './services/board.service'
-import { UserInBoardService } from './services/user-in-board.service';
+import { ListModule } from '../list/list.module'
+import {
+  BoardCollectionModule,
+  UserInBoardCollectionModule,
+} from './collections'
+import { BoardController, BoardListController } from './controllers'
+import { BoardListService, BoardService, UserInBoardService } from './services'
 
 @Module({
-  imports: [CommonModule, BoardCollectionModule, UserInBoardCollectionModule],
-  controllers: [BoardController],
-  providers: [BoardService, UserInBoardService],
+  imports: [
+    CommonModule,
+    ListModule,
+
+    BoardCollectionModule,
+    UserInBoardCollectionModule,
+  ],
+  controllers: [BoardController, BoardListController],
+  providers: [BoardService, UserInBoardService, BoardListService],
   exports: [BoardService],
 })
 export class BoardModule {}

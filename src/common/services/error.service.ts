@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
+import { ObjectId } from 'mongodb'
 import { ERROR_CODE } from '../constants'
 
 @Injectable()
@@ -64,7 +65,7 @@ export class ErrorService {
   }
 
   async throwErrorTokenExpired(): Promise<never> {
-    const message = `Session expired, please sign in again!`
+    const message = `Session expired`
     throw new HttpException(
       {
         message,
@@ -75,7 +76,7 @@ export class ErrorService {
   }
 
   async throwErrorInvalidToken(): Promise<never> {
-    const message = `Session expired, please sign in again!`
+    const message = `Invalid session, please sign in again!`
     throw new HttpException(
       {
         message,
@@ -114,6 +115,39 @@ export class ErrorService {
         statusCode: ERROR_CODE.FORBIDDEN_RESOURCE,
       },
       HttpStatus.FORBIDDEN,
+    )
+  }
+
+  async throwErrorListNotFound(listId: string | ObjectId): Promise<never> {
+    const message = `List ${listId} not found`
+    throw new HttpException(
+      {
+        message,
+        statusCode: ERROR_CODE.LIST_NOT_FOUND,
+      },
+      HttpStatus.BAD_REQUEST,
+    )
+  }
+
+  async throwErrorListCanOnlyMoveInTheCurrentBoard(): Promise<never> {
+    const message = `List can only move within the current board`
+    throw new HttpException(
+      {
+        message,
+        statusCode: ERROR_CODE.LIST_CAN_ONLY_MOVE_WITHIN_CURRENT_BOARD,
+      },
+      HttpStatus.FORBIDDEN,
+    )
+  }
+
+  async throwErrorRankNotFoundInBoard(): Promise<never> {
+    const message = `Cannot move list to this position, please reload page and try again`
+    throw new HttpException(
+      {
+        message,
+        statusCode: ERROR_CODE.RANK_NOT_FOUND_IN_BOARD,
+      },
+      HttpStatus.BAD_REQUEST,
     )
   }
 }

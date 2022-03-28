@@ -37,7 +37,7 @@ export class BoardController {
 
   @Get()
   @ApiOperation({
-    summary: 'get a list of boards that user has joined',
+    summary: 'get of my boards',
   })
   @ApiOkResponse({
     status: 200,
