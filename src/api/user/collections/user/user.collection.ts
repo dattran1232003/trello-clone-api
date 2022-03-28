@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import {ObjectId} from 'mongodb'
+import { ObjectId } from 'mongodb'
 import { Model } from 'mongoose'
 import { COLLECTION_NAME } from 'src/common/constants'
 import { ErrorService } from 'src/common/services'
@@ -17,10 +17,11 @@ export class UserCollection {
   async create(user: User): Promise<User> {
     return this.userModel.create(user)
   }
-  async getUserById(userId: ObjectId):Promise<User> {
+
+  async getUserById(userId: ObjectId): Promise<User> {
     return this.userModel.findOne({
       _id: userId,
-      deleted: false
+      deleted: false,
     })
   }
 
