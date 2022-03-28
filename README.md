@@ -16,5 +16,5 @@ yarn start
 ```
 
 ### Docs & design
-- API Documentation can be found in http://localhost:5000/api
+- API Documentation can be found in http://localhost:5000/api after server is started.
 - Database design: https://dbdiagram.io/d/623e8a59bed6183873ffc692
