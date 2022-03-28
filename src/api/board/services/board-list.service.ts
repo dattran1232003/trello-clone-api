@@ -65,12 +65,12 @@ export class BoardListService {
     trackingHeaders: ITrackingHeaders,
   ): Promise<ListResponseDto> {
     const { listId, boardId } = param
-    const { replacedListId } = body
+    const { destinationListId } = body
 
     const [board, currentList, replacedList] = await Promise.all([
       this.boardCollection.getBoardById(boardId),
       this.listCollection.getListById(listId),
-      replacedListId && this.listCollection.getListById(replacedListId),
+      destinationListId && this.listCollection.getListById(destinationListId),
     ])
 
     if (
@@ -85,9 +85,9 @@ export class BoardListService {
     ])
 
     let newRank: string
-    if (replacedListId) {
+    if (destinationListId) {
       const [prevList, afterList] =
-        await this.listCollection.getListNeighboursByBoardIdAndReplacedPlaceId(
+        await this.listCollection.getListNeighboursByBoardIdAndReplacedListId(
           board._id,
           replacedList._id,
         )

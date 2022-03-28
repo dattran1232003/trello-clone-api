@@ -14,6 +14,8 @@ export class MoveListInBoardRequestDto {
   @IsOptional()
   @IsMongoId()
   @IsString()
-  @ApiProperty()
-  replacedListId?: string
+  @ApiProperty({
+    description: 'set to null if you wish to move list to bottom of board',
+  })
+  destinationListId?: string
 }

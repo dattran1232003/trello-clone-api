@@ -61,7 +61,7 @@ export class ListCollection {
       })
   }
 
-  async getListNeighboursByBoardIdAndReplacedPlaceId(
+  async getListNeighboursByBoardIdAndReplacedListId(
     boardId: ObjectId,
     replacedListId: ObjectId,
   ): Promise<[List, List]> {
@@ -170,10 +170,16 @@ export class ListCollection {
     )
   }
 
-  async deleteListById(listId: string): Promise<void> {
-    await this.listModel.updateOne({
-      _id: listId,
-      deleted: true,
-    })
+  async deleteListById(listId: ObjectId): Promise<void> {
+    await this.listModel.updateOne(
+      {
+        _id: listId,
+      },
+      {
+        $set: {
+          deleted: true,
+        },
+      },
+    )
   }
 }

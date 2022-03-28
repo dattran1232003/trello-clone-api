@@ -7,8 +7,8 @@ import {
 } from '../dtos'
 import { UserAuthenticationService } from '../services/user-authentication.service'
 
-@Controller('v1/auth/user')
-@ApiTags('v1/auth/user')
+@Controller('v1/auth/users')
+@ApiTags('v1/auth/users')
 export class UserAuthenticationController {
   constructor(
     private readonly userAuthenticationService: UserAuthenticationService,

@@ -31,6 +31,7 @@ import { BoardListService } from '../services'
 @UseGuards(JwtAuthGuard)
 export class BoardListController {
   constructor(private readonly boardListService: BoardListService) {}
+
   @Get(':boardId/lists')
   @ApiOperation({
     summary: `Get lists in a board, default limit: ${DEFAULT_CONSTANT.DEFAULT_LIMIT_GET_LISTS_PAGE_LOAD}`,

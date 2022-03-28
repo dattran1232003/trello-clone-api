@@ -14,6 +14,7 @@ import { SessionModule } from './common/session/session.module'
 import { AppConfigModule, AppConfigService } from './config/app-configs'
 import { BoardModule } from './api/board/board.module';
 import { ListModule } from './api/list/list.module';
+import { CardModule } from './api/card/card.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ListModule } from './api/list/list.module';
     CommonModule,
     BoardModule,
     ListModule,
+    CardModule,
   ],
   controllers: [AppController],
   providers: [

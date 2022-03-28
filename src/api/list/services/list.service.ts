@@ -105,7 +105,7 @@ export class ListService {
     const { listId } = param
     const list = await this.listCollection.getListById(listId)
     await this.userInBoardCollection.checkUserInBoard(user._id, list.boardId)
-    await this.listCollection.deleteListById(listId)
+    await this.listCollection.deleteListById(list._id)
     return new DeleteListResponseDto(list)
   }
 }

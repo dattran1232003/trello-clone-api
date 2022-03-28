@@ -150,4 +150,25 @@ export class ErrorService {
       HttpStatus.BAD_REQUEST,
     )
   }
+
+  async throwErrorCardNotFound(cardId: string | ObjectId): Promise<never> {
+    const message = `Card ${cardId} not found`
+    throw new HttpException(
+      {
+        message,
+        statusCode: ERROR_CODE.BOARD_NOT_FOUND,
+      },
+      HttpStatus.BAD_REQUEST,
+    )
+  }
+  async throwErrorRankNotFoundInList(): Promise<never> {
+    const message = `Cannot move card to this position, please reload page and try again`
+    throw new HttpException(
+      {
+        message,
+        statusCode: ERROR_CODE.RANK_NOT_FOUND_IN_BOARD,
+      },
+      HttpStatus.BAD_REQUEST,
+    )
+  }
 }

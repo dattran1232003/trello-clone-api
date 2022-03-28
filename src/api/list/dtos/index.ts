@@ -1,5 +1,7 @@
 export * from './create-list.dto'
 export * from './delete-list.dto'
 export * from './get-lists-page-load.dto'
+export * from './list-card.dto'
 export * from './list-response.dto'
+export * from './move-card-dto'
 export * from './update-list.dto'
