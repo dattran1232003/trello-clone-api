@@ -87,7 +87,7 @@ export class BoardListService {
     let newRank: string
     if (replacedListId) {
       const [prevList, afterList] =
-        await this.listCollection.getListNeighboursByBoardIdAndReplacedPlaceId(
+        await this.listCollection.getListNeighboursByBoardIdAndReplacedListId(
           board._id,
           replacedList._id,
         )

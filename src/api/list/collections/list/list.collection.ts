@@ -61,7 +61,7 @@ export class ListCollection {
       })
   }
 
-  async getListNeighboursByBoardIdAndReplacedPlaceId(
+  async getListNeighboursByBoardIdAndReplacedListId(
     boardId: ObjectId,
     replacedListId: ObjectId,
   ): Promise<[List, List]> {
