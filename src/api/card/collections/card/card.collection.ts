@@ -15,6 +15,10 @@ export class CardCollection {
     private readonly errorService: ErrorService,
   ) {}
 
+  async create(card: Card): Promise<Card> {
+    return this.cardModel.create(card)
+  }
+
   async getCardById(
     cardId: string | ObjectId,
     nullable = false,
@@ -59,33 +63,34 @@ export class CardCollection {
 
   async getCardNeighboursByListIdAndReplacedCardId(
     listId: ObjectId,
-    replacedCardId: ObjectId,
+    destinationCardId: ObjectId,
   ): Promise<[Card, Card]> {
-    const afterCard = await this.cardModel
-      .findOne({
-        _id: replacedCardId,
-        listId,
-        deleted: false,
-      })
-      .sort({
-        rank: 1,
-      })
+    const afterCard = await this.cardModel.findOne({
+      _id: destinationCardId,
+      listId,
+      deleted: false,
+    })
 
     if (!afterCard) {
       await this.errorService.throwErrorRankNotFoundInList()
     }
 
-    const prevCard = await this.cardModel
-      .findOne({
-        listId,
-        deleted: false,
-        rank: {
-          $lt: afterCard.rank,
+    const [prevCard] = await this.cardModel.aggregate<Card>([
+      {
+        $sort: {
+          rank: -1,
         },
-      })
-      .sort({
-        rank: -1,
-      })
+      },
+      {
+        $match: {
+          listId,
+          deleted: false,
+          rank: {
+            $lt: afterCard.rank,
+          },
+        },
+      },
+    ])
 
     return [prevCard, afterCard]
   }
@@ -125,7 +130,7 @@ export class CardCollection {
     ])
   }
 
-  async updatecardById(cardId: ObjectId, updatecardBody: Card): Promise<Card> {
+  async updateCardById(cardId: ObjectId, updatecardBody: Card): Promise<Card> {
     return this.cardModel.findOneAndUpdate(
       {
         _id: cardId,
@@ -140,20 +145,7 @@ export class CardCollection {
     )
   }
 
-  async updatecardRank(cardId: ObjectId, rank: string): Promise<void> {
-    await this.cardModel.updateOne(
-      {
-        _id: cardId,
-      },
-      {
-        $set: {
-          rank,
-        },
-      },
-    )
-  }
-
-  async updatecardlistId(cardId: ObjectId, listId: ObjectId): Promise<void> {
+  async updateCardlistId(cardId: ObjectId, listId: ObjectId): Promise<void> {
     await this.cardModel.updateOne(
       {
         _id: cardId,
@@ -166,10 +158,16 @@ export class CardCollection {
     )
   }
 
-  async deletecardById(cardId: string): Promise<void> {
-    await this.cardModel.updateOne({
-      _id: cardId,
-      deleted: true,
-    })
+  async deleteCardById(cardId: ObjectId): Promise<void> {
+    await this.cardModel.updateOne(
+      {
+        _id: cardId,
+      },
+      {
+        $set: {
+          deleted: true,
+        },
+      },
+    )
   }
 }

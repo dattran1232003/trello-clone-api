@@ -31,6 +31,7 @@ export class Card extends BaseSchemaNestJS {
   @Prop({
     type: String,
     required: false,
+    default: '',
   })
   description?: string
 

@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator'
-import { ObjectId } from 'mongodb'
 
 export class UpdateCardParamRequestDto {
   @IsMongoId()
@@ -11,12 +10,6 @@ export class UpdateCardParamRequestDto {
 }
 
 export class UpdateCardRequestDto {
-  @IsOptional()
-  @IsMongoId()
-  @IsString()
-  @ApiProperty()
-  listId?: ObjectId
-
   @IsOptional()
   @IsString()
   @ApiProperty()
